@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+    int number;
+    struct node *next;
+};
+
+struct node *insert(struct node *head){
+   //return new list pointer
+    int b=0;
+    struct node *current;
+    printf("Insert: ");
+    if (1!=scanf("%d",&b)||b==0){
+        return head;
+    }
+    current=malloc(sizeof(struct node));
+    if (current==NULL){
+        printf("Bad malloc!\n");
+        exit(1);
+    }
+    current->number=b;
+    current->next=head;
+    return insert(current);
+}
+
+int main(void){
+    struct node *head=NULL;
+    head=insert(head);
+
+    printf("List is: ");
+    display(head);
+    printf("\n");
+
+    free_list(head);
+    return 0;
+}
+
+void display(struct node *list){
+    if(list){
+        //printf("%d ",list->number); //Descending
+        display(list->next);
+        printf("%d ",list->number); //Ascending
+    }
+}
+
+void free_list(struct node *list){
+    if (list){
+        free_list(list->next);
+        free(list);
+    }
+}
